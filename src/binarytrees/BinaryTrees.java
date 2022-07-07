@@ -45,6 +45,8 @@ public class BinaryTrees {
                         tree.posorden(tree.punta);
                         break;
                     case 4:
+                        int hojas = tree.contarHojas(tree.punta);
+                        JOptionPane.showMessageDialog(null, "Existen "+hojas+" hojas en el árbol");
                         break;
                     case 5:
                         break;

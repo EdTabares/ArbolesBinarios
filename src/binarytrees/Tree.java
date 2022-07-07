@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 public class Tree {
 
     Nodo punta;
+    private int cant;
 
     //Constructor
     public Tree() {
@@ -66,9 +67,16 @@ public class Tree {
         }
             
     }
-
-    public void contarHojas() {
-
+    
+    public int contarHojas(Nodo x){
+        if (x != null) {
+            if (x.getLi() == null && x.getLd() == null) {
+                cant++;
+            }
+            contarHojas(x.getLi());
+            contarHojas(x.getLd());
+        }
+        return cant;
     }
 
     public void contarPadres() {
