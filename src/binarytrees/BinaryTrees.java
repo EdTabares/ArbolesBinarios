@@ -30,7 +30,7 @@ public class BinaryTrees {
                 + "8- Mostrar el nivel de un dato ingresado\n"
                 + "9- Mostrar la altura de un dato ingresado\n"
                 + "10- Mostrar los primos de un dato ingresado\n"
-                + "10- Mostrar los ancestros de un dato ingresado\n"
+                + "11- Mostrar los ancestros de un dato ingresado\n"
                 + "0- Salir";
         do {
             try {
@@ -68,12 +68,19 @@ public class BinaryTrees {
                     case 8:
                         String nivel = JOptionPane.showInputDialog("Ingrese un dato para buscar el nivel");
                         char level = nivel.charAt(0);
-                        tree.nivelDato(tree.punta, level);
+                        int n = tree.nivelDato(tree.punta, level);
+                        if (n != 0) {
+                            JOptionPane.showMessageDialog(null, "El nivel del dato es: "+n);
+                        }
                         break;
                     case 9:
-                        String altura = JOptionPane.showInputDialog("Ingrese un dato para buscar el nivel");
+                        String altura = JOptionPane.showInputDialog("Ingrese un dato para buscar  la altura");
                         char height = altura.charAt(0);
-                        tree.nivelDato(tree.punta, height);
+                        tree.alturaDato(tree.punta, height); 
+                        break;
+                    case 10:
+                        break;
+                    case 11:
                         break;
                     case 0:
                         System.exit(0);

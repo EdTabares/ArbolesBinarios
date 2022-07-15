@@ -115,24 +115,26 @@ public class Tree {
 
             if ((x.getDato() == dato) && padre != null) {
                 if (x.getDato() > padre.getDato()) {
-                    System.out.println(padre.getLi().getDato());                                        
-                } else{
-                    System.out.println(padre.getLd().getDato());                    
+                    JOptionPane.showMessageDialog(null, "El Hermano de " + x.getDato() + " es " + padre.getLi().getDato());
+                    //System.out.println(padre.getLi().getDato());                                        
+                } else {
+                    //System.out.println(padre.getLd().getDato());                    
+                    JOptionPane.showMessageDialog(null, "El Hermano de " + x.getDato() + " es " + padre.getLd().getDato());
                 }
             }
-            
+
             if (dato > x.getDato()) {
                 mostrarHermanoDato(x, x.getLd(), dato);
-            } else{
+            } else {
                 mostrarHermanoDato(x, x.getLi(), dato);
             }
         }
     }
 
-    public void nivelDato(Nodo x, int dato) {
+    public int nivelDato(Nodo x, char dato) {
+        int n = 0;
         if (x != null) {
-            int n= 0;
-            while (x.getDato() != dato) {                
+            while (x.getDato() != dato) {
                 n++;
                 if (dato > x.getDato()) {
                     x = x.getLd();
@@ -140,18 +142,74 @@ public class Tree {
                     x = x.getLi();
                 }
             }
-            
-            if (x.getDato() == dato){
+
+            if (x.getDato() == dato) {
                 n++;
-                System.out.println(n);
-            } else{
-                System.out.println("El dato no se encuentra");
-            }                                
+                // JOptionPane.showMessageDialog(null, "El nivel de " + x.getDato() + " es: " + n);
+            } else {
+                JOptionPane.showMessageDialog(null, "El Dato no se encuentra");
+            }
+        }
+        return n;
+    }
+
+    public void alturaDato(Nodo x, char dato) {
+        int izq = 0, der = 0, altura = 0;
+        Nodo aux;
+        if (x != null) {
+            if (x.getDato() == dato) {
+                aux = x;
+                while (aux != null) {
+                    izq++;
+                    aux = aux.getLi();
+                }
+
+                aux = x;
+                while (aux != null) {
+                    der++;
+                    aux = x.getLd();
+                }
+
+                if (izq >= der) {
+                    altura = izq;
+                    JOptionPane.showMessageDialog(null, "La altura del dato es: " + altura);
+                } else {
+                    altura = der;
+                    JOptionPane.showMessageDialog(null, "La altura del dato es: " + altura);
+                }
+            }
+
+            if (dato > x.getDato()) {
+                alturaDato(x.getLd(), dato);
+            } else {
+                alturaDato(x.getLi(), dato);
+            }
         }
     }
 
-    public void alturaDato() {
-        
+    //Mostrar los primos de un dato ingresado
+    public void primos(Nodo x, char dato) {
+        if (x != null) {
+
+            int level = nivelDato(x, dato);
+
+            if (level == 1) {
+                JOptionPane.showMessageDialog(null, "No tiene primos");
+            } else {
+
+            }
+
+        }
     }
 
+//    if (!(root.left != null && root.left == node || root.right != null && root.right == node))
+//        {
+//            printLevel(root.left, node, level - 1);
+//            printLevel(root.right, node, level - 1);
+    
+    
+//Mostrar los ancetros de un dato ingresado
+    public void ancestros() {
+
+    }
 }
