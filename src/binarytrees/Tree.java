@@ -1,5 +1,6 @@
 package binarytrees;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Tree {
@@ -9,12 +10,38 @@ public class Tree {
     private String msjInorden = "";
     private String msjPreorden = "";
     private String msjPosorden = "";
+    private String showAncestros = "";
 
     //Constructor
     public Tree() {
         punta = null;
     }
 
+    public Nodo getPunta() {
+        return punta;
+    }
+
+    public void setPunta(Nodo punta) {
+        this.punta = punta;
+    }
+
+    public int getCant() {
+        return cant;
+    }
+
+    public void setCant(int cant) {
+        this.cant = cant;
+    }
+
+    public String getShowAncestros() {
+        return showAncestros;
+    }
+
+    public void setShowAncestros(String showAncestros) {
+        this.showAncestros = showAncestros;
+    }
+    
+    
     public void create(char[] vc) {
         int i = 0;
         while (i < vc.length) {
@@ -44,10 +71,30 @@ public class Tree {
         JOptionPane.showMessageDialog(null, "Arbol creado con exito!!");
     }
 
+    public void graficar() {
+        GraficaArbolBinario Migrafico = new GraficaArbolBinario(this);
+        JFrame ventana = new JFrame("Mi Árbol Binario");
+        ventana.getContentPane().add(Migrafico);
+        ventana.setDefaultCloseOperation(3);
+        ventana.setSize(800, 600);
+        ventana.setVisible(true);
+    }
+
+    public int nodosCompletos(Nodo r) {
+        if (r == null) {
+            return 0;
+        } else {
+            if (r.getLi() != null && r.getLd() != null) {
+                return nodosCompletos(r.getLi()) + nodosCompletos(r.getLd()) + 1;
+            }
+            return nodosCompletos(r.getLi()) + nodosCompletos(r.getLd());
+        }
+    }
+
     public String inorden(Nodo x) {
         if (x != null) {
             inorden(x.getLi());
-            System.out.println(x.getDato());
+            //System.out.println(x.getDato());
             msjInorden = msjInorden + x.getDato();
             inorden(x.getLd());
         }
@@ -97,7 +144,7 @@ public class Tree {
         return cant;
     }
 
-    //Mostrar registros de un solo hijo
+    //Mostrar registros de un solo hijo JOPTION??
     public void mostrarRegistrohijo(Nodo x) {
         if (x != null) {
             if ((x.getLi() != null && x.getLd() == null) || (x.getLi() == null && x.getLd() != null)) {
@@ -188,28 +235,67 @@ public class Tree {
     }
 
     //Mostrar los primos de un dato ingresado
-    public void primos(Nodo x, char dato) {
-        if (x != null) {
-
-            int level = nivelDato(x, dato);
-
-            if (level == 1) {
-                JOptionPane.showMessageDialog(null, "No tiene primos");
-            } else {
-
+    public void primos(Nodo raiz, char dato) {
+        int level = getLevel(raiz, dato, 1);
+        imprimirNivel(raiz, dato, level);
+    }
+    
+    public int getLevel(Nodo raiz, char dato, int level){
+        if (raiz == null) {
+            return 0;
+        }
+        if (raiz.getDato() == dato) {
+            return level;
+        }
+        int downlevel = getLevel(raiz.getLi(), dato, level+1);
+        if (downlevel != 0) {
+            return downlevel;
+        }
+        
+        return getLevel(raiz.getLd(), dato, level+1);
+        
+    }
+    
+    public void imprimirNivel(Nodo raiz, char dato, int level ){
+        if (raiz == null || level < 2) {
+            return;
+        }
+        
+        if (level == 2) {
+            if (raiz.getLi().getDato() == dato || raiz.getLd().getDato() == dato) {
+                return;
             }
-
+            
+            if (raiz.getLi() != null) {
+                System.out.println(raiz.getLi().getDato()+" ");
+            }
+            if (raiz.getLd() != null) {
+                System.out.println(raiz.getLd().getDato()+" ");
+            }
+        } else if (level > 2) {
+            imprimirNivel(raiz.getLi(), dato, level-1);
+            imprimirNivel(raiz.getLd(), dato, level-1);
         }
     }
 
-//    if (!(root.left != null && root.left == node || root.right != null && root.right == node))
-//        {
-//            printLevel(root.left, node, level - 1);
-//            printLevel(root.right, node, level - 1);
-    
-    
-//Mostrar los ancetros de un dato ingresado
-    public void ancestros() {
 
+//Mostrar los ancestros de un dato ingresado
+    public boolean ancestros(Nodo x, char dato) {
+        if (x == null) { 
+            return false;
+        }
+        
+        if (x.getDato() == dato) {                        
+            return true;            
+        }
+        
+        if (ancestros(x.getLi(), dato) || ancestros(x.getLd(), dato)) {
+            showAncestros = showAncestros + x.getDato();
+            System.out.println(x.getDato()+" ");      
+            
+            return true;
+        }        
+        return false;
+        
     }
 }
